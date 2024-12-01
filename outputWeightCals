@@ -1,0 +1,23 @@
+Masukkan Nama: Nayla Shafa Khairunnisa
+Masukkan Jenis Kelamin (Pria/Wanita): Lainnya
+Input tidak valid! Harap masukkan 'Pria' atau 'Wanita'.
+Masukkan Jenis Kelamin (Pria/Wanita): Wanita
+Masukkan Usia (dalam tahun): 0
+Masukkan Usia (dalam tahun): 1500
+Usia tidak valid! Harap masukkan usia yang benar (antara 1 hingga 120 tahun).
+Masukkan Usia (dalam tahun): 18
+Masukkan Tinggi Badan (dalam cm): 158
+Masukkan Berat Badan (dalam kg): 55
+Masukkan Tingkat Aktivitas Fisik (Tidak ada/Ringan/Sedang/Tinggi): Sedang
+
+--- Hasil Perhitungan ---
+Nama Pengguna: Nayla Shafa Khairunnisa
+BMI: 22.03 - Berat Badan Normal
+Kebutuhan Kalori Harian (BMR): 1389.10 kcal
+Total Kebutuhan Kalori dengan Aktivitas: 2153.10 kcal
+Rekomendasi: Anda memiliki berat badan ideal. Pertahankan pola makan sehat dan rutin berolahraga.
+
+--- Berat Badan Ideal ---
+Berat Badan Ideal (BMI 18.5): 46.18 kg
+Berat Badan Ideal (BMI 24.9): 62.16 kg
+Berat badan Anda sudah berada dalam rentang ideal.

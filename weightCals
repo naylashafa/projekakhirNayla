@@ -1,0 +1,184 @@
+import java.util.Scanner;
+
+public class projekakhirNayla {
+    
+    // Metode untuk mendapatkan semua input data sekaligus
+    public static Object[] inputData(Scanner scannay) {
+        System.out.print("Masukkan Nama: ");
+        String nama = scannay.nextLine();
+        
+        String jenisKelamin = "";
+        while (true) {
+            System.out.print("Masukkan Jenis Kelamin (Pria/Wanita): ");
+            jenisKelamin = scannay.nextLine().toLowerCase();
+            if (jenisKelamin.equals("pria") || jenisKelamin.equals("wanita")) {
+                break;
+            } else {
+                System.out.println("Input tidak valid! Harap masukkan 'Pria' atau 'Wanita'.");
+            }
+        }
+        
+        System.out.print("Masukkan Usia (dalam tahun): ");
+        int usia = scannay.nextInt();
+        while (usia <= 0 || usia > 120) {
+        System.out.print("Masukkan Usia (dalam tahun): ");
+        if (scannay.hasNextInt()) {
+            usia = scannay.nextInt();
+            if (usia <= 0 || usia > 120) {
+                System.out.println("Usia tidak valid! Harap masukkan usia yang benar (antara 1 hingga 120 tahun).");
+            }
+        } else {
+            System.out.println("Input tidak valid! Harap masukkan angka untuk usia.");
+            scannay.next(); // Mengkonsumsi input yang tidak valid agar tidak menyebabkan infinite loop
+        }
+    }
+        
+        System.out.print("Masukkan Tinggi Badan (dalam cm): ");
+        double tinggiBadanCm = scannay.nextDouble();
+        
+        System.out.print("Masukkan Berat Badan (dalam kg): ");
+        double beratBadanKg = scannay.nextDouble();
+        
+        System.out.print("Masukkan Tingkat Aktivitas Fisik (Tidak ada/Ringan/Sedang/Tinggi): ");
+        String aktivitas = scannay.next().toLowerCase();
+        
+        // Mengembalikan data dalam bentuk array Object
+        return new Object[] {nama, jenisKelamin, usia, tinggiBadanCm, beratBadanKg, aktivitas};
+    }
+
+    // Metode untuk menghitung BMI
+    public static double hitungBMI(double beratBadanKg, double tinggiBadanCm) {
+        double tinggiBadanM = tinggiBadanCm / 100;
+        return beratBadanKg / (tinggiBadanM * tinggiBadanM);
+    }
+
+    // Metode untuk menentukan kategori BMI
+    public static String kategoriBMI(double bmi) {
+        if (bmi < 18.5) {
+            return "Kekurangan Berat Badan";
+        } else if (bmi >= 18.5 && bmi < 24.9) {
+            return "Berat Badan Normal";
+        } else if (bmi >= 25 && bmi < 29.9) {
+            return "Kelebihan Berat Badan";
+        } else {
+            return "Obesitas";
+        }
+    }
+
+    // Metode untuk menghitung BMR berdasarkan jenis kelamin, berat badan, tinggi badan, dan usia
+    public static double hitungBMR(String jenisKelamin, double beratBadanKg, double tinggiBadanCm, int usia) {
+        if (jenisKelamin.equals("pria")) {
+            return 66.5 + (13.75 * beratBadanKg) + (5.003 * tinggiBadanCm) - (6.75 * usia);
+        } else {
+            return 655 + (9.563 * beratBadanKg) + (1.850 * tinggiBadanCm) - (4.676 * usia);
+        }
+    }
+
+    // Metode untuk menghitung total kalori berdasarkan tingkat aktivitas fisik
+    public static double hitungKalori(double bmr, String aktivitas) {
+        double faktorAktivitas = 1.2; // Default untuk Tidak ada aktivitas
+        switch (aktivitas) {
+            case "ringan":
+                faktorAktivitas = 1.375;
+                break;
+            case "sedang":
+                faktorAktivitas = 1.55;
+                break;
+            case "tinggi":
+                faktorAktivitas = 1.725;
+                break;
+            default:
+                faktorAktivitas = 1.2; // Untuk Tidak ada aktivitas
+                break;
+        }
+        return bmr * faktorAktivitas;
+    }
+
+    // Metode untuk memberikan rekomendasi berdasarkan kategori BMI
+    public static String rekomendasiBMI(String kategoriBMI) {
+        switch (kategoriBMI) {
+            case "Kekurangan Berat Badan":
+                return "Anda disarankan untuk meningkatkan asupan kalori dengan makanan yang kaya gizi.";
+            case "Berat Badan Normal":
+                return "Anda memiliki berat badan ideal. Pertahankan pola makan sehat dan rutin berolahraga.";
+            case "Kelebihan Berat Badan":
+                return "Kurangi asupan kalori dan perbanyak aktivitas fisik untuk mencapai berat badan yang sehat.";
+            case "Obesitas":
+                return "Disarankan untuk berkonsultasi dengan ahli gizi atau dokter untuk merencanakan program diet dan olahraga.";
+            default:
+                return "Tidak ada rekomendasi.";
+        }
+    }
+
+    // Metode untuk menghitung berat badan ideal berdasarkan tinggi badan
+    public static void hitungBeratBadanIdeal(double tinggiBadanM) {
+        double bmiIdealMin = 18.5;
+        double bmiIdealMax = 24.9;
+        double beratBadanIdealMin = bmiIdealMin * tinggiBadanM * tinggiBadanM;
+        double beratBadanIdealMax = bmiIdealMax * tinggiBadanM * tinggiBadanM;
+
+        System.out.println("\n--- Berat Badan Ideal ---");
+        System.out.println("Berat Badan Ideal (BMI 18.5): " + String.format("%.2f", beratBadanIdealMin) + " kg");
+        System.out.println("Berat Badan Ideal (BMI 24.9): " + String.format("%.2f", beratBadanIdealMax) + " kg");
+    }
+
+    // Metode untuk menghitung kalori yang harus ditambah atau dikurangi untuk mencapai berat badan ideal
+    public static void hitungKaloriIdeal(double beratBadanKg, double beratBadanIdealMin, double beratBadanIdealMax) {
+        if (beratBadanKg < beratBadanIdealMin) {
+            double kaloriYangHarusDitambah = (beratBadanIdealMin - beratBadanKg) * 7700 / 30; // 7700 kalori per kg, dalam 30 hari
+            System.out.println("Untuk mencapai berat badan ideal, Anda perlu menambah sekitar " + String.format("%.2f", beratBadanIdealMin - beratBadanKg) + " kg.");
+            System.out.println("Tambahkan sekitar " + String.format("%.2f", kaloriYangHarusDitambah) + " kalori per hari.");
+        } else if (beratBadanKg > beratBadanIdealMax) {
+            double kaloriYangHarusDikurangi = (beratBadanKg - beratBadanIdealMax) * 7700 / 30; // 7700 kalori per kg, dalam 30 hari
+            System.out.println("Untuk mencapai berat badan ideal, Anda perlu mengurangi sekitar " + String.format("%.2f", beratBadanKg - beratBadanIdealMax) + " kg.");
+            System.out.println("Kurangi sekitar " + String.format("%.2f", kaloriYangHarusDikurangi) + " kalori per hari.");
+        } else {
+            System.out.println("Berat badan Anda sudah berada dalam rentang ideal.");
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scannay = new Scanner(System.in);
+
+        // Mengambil input data sekaligus
+        Object[] data = inputData(scannay);
+
+        // Mengambil data dari array yang dikembalikan
+        String nama = (String) data[0];
+        String jenisKelamin = (String) data[1];
+        int usia = (int) data[2];
+        double tinggiBadanCm = (double) data[3];
+        double beratBadanKg = (double) data[4];
+        String aktivitas = (String) data[5];
+
+        // Menghitung BMI
+        double bmi = hitungBMI(beratBadanKg, tinggiBadanCm);
+        String kategoriBMI = kategoriBMI(bmi);
+
+        // Menghitung BMR
+        double bmr = hitungBMR(jenisKelamin, beratBadanKg, tinggiBadanCm, usia);
+
+        // Menghitung Total Kalori
+        double totalKalori = hitungKalori(bmr, aktivitas);
+
+        // Menampilkan hasil
+        System.out.println("\n--- Hasil Perhitungan ---");
+        System.out.println("Nama Pengguna: " + nama);
+        System.out.println("BMI: " + String.format("%.2f", bmi) + " - " + kategoriBMI);
+        System.out.println("Kebutuhan Kalori Harian (BMR): " + String.format("%.2f", bmr) + " kcal");
+        System.out.println("Total Kebutuhan Kalori dengan Aktivitas: " + String.format("%.2f", totalKalori) + " kcal");
+
+        // Memberikan rekomendasi berdasarkan kategori BMI
+        String rekomendasi = rekomendasiBMI(kategoriBMI);
+        System.out.println("Rekomendasi: " + rekomendasi);
+
+        // Menghitung berat badan ideal dan kalori yang harus ditambah atau dikurangi
+        double tinggiBadanM = tinggiBadanCm / 100;
+        hitungBeratBadanIdeal(tinggiBadanM);
+        double beratBadanIdealMin = 18.5 * tinggiBadanM * tinggiBadanM;
+        double beratBadanIdealMax = 24.9 * tinggiBadanM * tinggiBadanM;
+        hitungKaloriIdeal(beratBadanKg, beratBadanIdealMin, beratBadanIdealMax);
+
+        scannay.close();
+    }
+}
